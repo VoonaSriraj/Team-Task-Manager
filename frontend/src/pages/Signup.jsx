@@ -20,7 +20,15 @@ const Signup = () => {
       await register(formData);
       navigate('/');
     } catch (err) {
-      setError(err.response?.data?.detail || 'Registration failed');
+      let errorMessage = 'Registration failed';
+      if (err.response?.data?.detail) {
+        if (typeof err.response.data.detail === 'string') {
+          errorMessage = err.response.data.detail;
+        } else if (Array.isArray(err.response.data.detail)) {
+          errorMessage = err.response.data.detail[0].msg;
+        }
+      }
+      setError(errorMessage);
     }
   };
 
