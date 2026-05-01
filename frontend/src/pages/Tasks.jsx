@@ -59,10 +59,11 @@ const Tasks = () => {
 
   const handleStatusChange = async (taskId, newStatus) => {
     try {
-      await apiClient.put(`tasks/${taskId}/`, { status: newStatus });
+      await apiClient.put(`tasks/${taskId}`, { status: newStatus });
       fetchData();
     } catch (err) {
-      alert("Failed to update status");
+      console.error("Status update error:", err);
+      alert("Failed to update status: " + (err.response?.data?.detail || "Unknown error"));
     }
   };
 
