@@ -16,7 +16,7 @@ const Projects = () => {
 
   const fetchProjects = async () => {
     try {
-      const res = await apiClient.get('projects');
+      const res = await apiClient.get('projects/');
       setProjects(Array.isArray(res.data) ? res.data : []);
     } catch (err) {
       console.error("Failed to fetch projects:", err);
@@ -34,7 +34,7 @@ const Projects = () => {
     }
     
     try {
-      await apiClient.post('projects', newProject);
+      await apiClient.post('projects/', newProject);
       setShowModal(false);
       setNewProject({ name: '', description: '' });
       await fetchProjects();
@@ -47,7 +47,7 @@ const Projects = () => {
   const handleDelete = async (id) => {
     if (!confirm('Are you sure you want to delete this project?')) return;
     try {
-      await apiClient.delete(`projects/${id}`);
+      await apiClient.delete(`projects/${id}/`);
       fetchProjects();
     } catch (err) {
       alert("Failed to delete. " + (err.response?.data?.detail || ''));

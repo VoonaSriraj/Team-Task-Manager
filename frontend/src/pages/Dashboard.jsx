@@ -11,7 +11,7 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchTasks = async () => {
       try {
-        const res = await apiClient.get('tasks');
+        const res = await apiClient.get('tasks/');
         // Filter tasks assigned to the current user, or all if admin?
         // Let's just fetch all tasks for dashboard overview
         setTasks(res.data);

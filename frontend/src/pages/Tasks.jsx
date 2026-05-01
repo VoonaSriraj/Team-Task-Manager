@@ -22,9 +22,9 @@ const Tasks = () => {
   const fetchData = async () => {
     try {
       const [tasksRes, projRes, usersRes] = await Promise.all([
-        apiClient.get('tasks'),
-        apiClient.get('projects'),
-        apiClient.get('users')
+        apiClient.get('tasks/'),
+        apiClient.get('projects/'),
+        apiClient.get('users/')
       ]);
       setTasks(tasksRes.data);
       setProjects(projRes.data);
@@ -48,7 +48,7 @@ const Tasks = () => {
       const taskPayload = { ...newTask };
       if (!taskPayload.assignee_id) delete taskPayload.assignee_id;
       
-      await apiClient.post(`tasks?project_id=${taskPayload.project_id}`, taskPayload);
+      await apiClient.post(`tasks/?project_id=${taskPayload.project_id}`, taskPayload);
       setShowModal(false);
       setNewTask({ title: '', description: '', status: 'todo', project_id: '', assignee_id: '' });
       fetchData();
@@ -59,7 +59,7 @@ const Tasks = () => {
 
   const handleStatusChange = async (taskId, newStatus) => {
     try {
-      await apiClient.put(`tasks/${taskId}`, { status: newStatus });
+      await apiClient.put(`tasks/${taskId}/`, { status: newStatus });
       fetchData();
     } catch (err) {
       alert("Failed to update status");
