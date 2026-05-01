@@ -97,9 +97,9 @@ const Projects = () => {
 
       {/* Create Modal */}
       {showModal && (
-        <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex justify-center items-center z-[100] p-4 overflow-y-auto">
-          <div className="glass-panel p-8 w-full max-w-md animate-fade-in bg-slate-900 border border-white/10 my-auto">
-            <h2 className="text-2xl font-bold mb-6 text-white tracking-tight">Create New Project</h2>
+        <div className="fixed inset-0 bg-black/90 backdrop-blur-md z-[9999] flex items-start justify-center pt-20 overflow-y-auto">
+          <div className="glass-panel p-8 w-full max-w-md bg-slate-900 border border-white/20 shadow-2xl relative mb-20 animate-fade-in">
+            <h2 className="text-2xl font-bold mb-6 text-white">Create New Project</h2>
             <form onSubmit={handleCreate}>
               <div className="form-group">
                 <label className="form-label">Project Name</label>
