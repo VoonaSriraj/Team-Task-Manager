@@ -97,37 +97,56 @@ const Projects = () => {
 
       {/* Create Modal */}
       {showModal && (
-        <div className="fixed inset-0 bg-black/90 backdrop-blur-md z-[9999] flex items-start justify-center pt-20 overflow-y-auto">
-          <div className="glass-panel p-8 w-full max-w-md bg-slate-900 border border-white/20 shadow-2xl relative mb-20 animate-fade-in">
-            <h2 className="text-2xl font-bold mb-6 text-white">Create New Project</h2>
-            <form onSubmit={handleCreate}>
-              <div className="form-group">
-                <label className="form-label">Project Name</label>
-                <input
-                  type="text"
-                  className="form-input"
-                  value={newProject.name}
-                  onChange={e => setNewProject({...newProject, name: e.target.value})}
-                  required
-                />
-              </div>
-              <div className="form-group mb-6">
-                <label className="form-label">Description</label>
-                <textarea
-                  className="form-input h-24 resize-none"
-                  value={newProject.description}
-                  onChange={e => setNewProject({...newProject, description: e.target.value})}
-                ></textarea>
-              </div>
-              <div className="flex justify-end gap-3">
-                <button type="button" onClick={() => setShowModal(false)} className="btn btn-secondary">
-                  Cancel
-                </button>
-                <button type="submit" className="btn btn-primary">
-                  Create Project
-                </button>
-              </div>
-            </form>
+        <div className="fixed inset-0 z-[9999] overflow-y-auto">
+          {/* Backdrop */}
+          <div 
+            className="fixed inset-0 bg-black/80 backdrop-blur-sm"
+            onClick={() => setShowModal(false)}
+          />
+          
+          {/* Modal Container */}
+          <div className="flex min-h-full items-center justify-center p-4">
+            <div className="relative glass-panel w-full max-w-md bg-slate-900 border border-white/20 p-8 shadow-2xl animate-fade-in">
+              <h2 className="text-2xl font-bold mb-6 text-white">Create New Project</h2>
+              <form onSubmit={handleCreate} className="space-y-6">
+                <div>
+                  <label className="block text-sm font-medium text-slate-400 mb-2">Project Name</label>
+                  <input
+                    type="text"
+                    className="w-full bg-slate-800 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-indigo-500 transition-colors"
+                    placeholder="Enter project name"
+                    value={newProject.name}
+                    onChange={e => setNewProject({...newProject, name: e.target.value})}
+                    required
+                  />
+                </div>
+                
+                <div>
+                  <label className="block text-sm font-medium text-slate-400 mb-2">Description (Optional)</label>
+                  <textarea
+                    className="w-full bg-slate-800 border border-white/10 rounded-lg px-4 py-3 text-white h-32 resize-none focus:outline-none focus:border-indigo-500 transition-colors"
+                    placeholder="What is this project about?"
+                    value={newProject.description}
+                    onChange={e => setNewProject({...newProject, description: e.target.value})}
+                  />
+                </div>
+                <div className="flex gap-3 pt-2">
+                  <button 
+                    type="button" 
+                    onClick={() => setShowModal(false)} 
+                    className="flex-1 px-4 py-3 bg-slate-800 text-white rounded-lg hover:bg-slate-700 transition-colors font-medium"
+                  >
+                    Cancel
+                  </button>
+                  <button 
+                    type="submit" 
+                    className="flex-1 px-4 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-500 transition-all font-medium shadow-lg shadow-indigo-500/20"
+                  >
+                    Create Project
+                  </button>
+                </div>
+              </form>
+            </div>
           </div>
         </div>
       )}

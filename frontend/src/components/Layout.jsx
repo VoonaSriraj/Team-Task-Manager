@@ -79,17 +79,17 @@ const Layout = () => {
       </aside>
 
       {/* Main Content */}
-      <main className="flex-1 flex flex-col h-screen overflow-hidden">
+      <main className="flex-1 flex flex-col min-h-0 relative">
         {/* Mobile Header */}
-        <header className="md:hidden flex items-center justify-between p-4 bg-bg-secondary border-b border-border-color">
-          <h1 className="text-lg font-bold">Team Task Manager</h1>
+        <header className="md:hidden flex items-center justify-between p-4 bg-bg-secondary border-b border-border-color shrink-0">
+          <h1 className="text-lg font-bold">TTM</h1>
           <button onClick={() => setSidebarOpen(true)} className="p-2 text-text-secondary hover:text-white">
             <Menu size={24} />
           </button>
         </header>
-
+ 
         {/* Page Content */}
-        <div className="flex-1 overflow-auto p-4 md:p-8">
+        <div className="flex-1 overflow-y-auto p-4 md:p-8 custom-scrollbar">
           <Outlet />
         </div>
       </main>
