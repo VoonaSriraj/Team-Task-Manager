@@ -38,6 +38,12 @@ const Tasks = () => {
 
   const handleCreate = async (e) => {
     e.preventDefault();
+
+    if (!newTask.project_id) {
+      alert("Please select a project before creating a task.");
+      return;
+    }
+
     try {
       const taskPayload = { ...newTask };
       if (!taskPayload.assignee_id) delete taskPayload.assignee_id;
@@ -197,8 +203,8 @@ const Tasks = () => {
                 <button type="button" onClick={() => setShowModal(false)} className="btn btn-secondary">
                   Cancel
                 </button>
-                <button type="submit" className="btn btn-primary" disabled={!newTask.project_id}>
-                  Create Task
+                <button type="submit" className="btn btn-primary">
+                Create Task
                 </button>
               </div>
             </form>
