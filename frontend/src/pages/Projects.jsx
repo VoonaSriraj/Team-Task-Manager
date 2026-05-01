@@ -17,9 +17,10 @@ const Projects = () => {
   const fetchProjects = async () => {
     try {
       const res = await apiClient.get('projects');
-      setProjects(res.data);
+      setProjects(Array.isArray(res.data) ? res.data : []);
     } catch (err) {
-      console.error(err);
+      console.error("Failed to fetch projects:", err);
+      setProjects([]);
     } finally {
       setLoading(false);
     }
@@ -27,13 +28,19 @@ const Projects = () => {
 
   const handleCreate = async (e) => {
     e.preventDefault();
+    if (!newProject.name.trim()) {
+      alert("Project name is required.");
+      return;
+    }
+    
     try {
       await apiClient.post('projects', newProject);
       setShowModal(false);
       setNewProject({ name: '', description: '' });
-      fetchProjects();
+      await fetchProjects();
     } catch (err) {
-      alert("Failed to create project. " + (err.response?.data?.detail || ''));
+      console.error("Create project error:", err);
+      alert("Failed to create project. " + (err.response?.data?.detail || 'Please check your connection.'));
     }
   };
 
