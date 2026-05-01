@@ -16,7 +16,7 @@ const Projects = () => {
 
   const fetchProjects = async () => {
     try {
-      const res = await apiClient.get('/projects');
+      const res = await apiClient.get('projects');
       setProjects(res.data);
     } catch (err) {
       console.error(err);
@@ -28,7 +28,7 @@ const Projects = () => {
   const handleCreate = async (e) => {
     e.preventDefault();
     try {
-      await apiClient.post('/projects', newProject);
+      await apiClient.post('projects', newProject);
       setShowModal(false);
       setNewProject({ name: '', description: '' });
       fetchProjects();
@@ -40,7 +40,7 @@ const Projects = () => {
   const handleDelete = async (id) => {
     if (!confirm('Are you sure you want to delete this project?')) return;
     try {
-      await apiClient.delete(`/projects/${id}`);
+      await apiClient.delete(`projects/${id}`);
       fetchProjects();
     } catch (err) {
       alert("Failed to delete. " + (err.response?.data?.detail || ''));
@@ -62,7 +62,7 @@ const Projects = () => {
         <div className="text-text-secondary">Loading...</div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {projects.map(project => (
+          {(Array.isArray(projects) ? projects : []).map(project => (
             <div key={project.id} className="glass-panel p-6 flex flex-col h-full hover:-translate-y-1 transition-transform duration-300">
               <div className="flex justify-between items-start mb-4">
                 <h3 className="text-lg font-bold text-white">{project.name}</h3>

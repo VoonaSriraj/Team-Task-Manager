@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
-from fastapi.responses import FileResponse
+from fastapi.responses import FileResponse, JSONResponse
 import os
 from .database import engine, Base
 from .routers import auth_router, projects_router, tasks_router, users_router
@@ -42,9 +42,13 @@ if os.path.exists(frontend_path):
     
     @app.get("/{full_path:path}")
     async def catch_all(full_path: str):
-        # Allow API routes to pass through (though they shouldn't hit this due to routing order)
-        if full_path.startswith("api/"):
-            return {"detail": "Not Found"}
+        # If it's an API or asset request that wasn't matched by previous routes, 
+        # return a 404 instead of index.html to avoid frontend crashes.
+        if full_path.startswith("api") or full_path.startswith("assets"):
+            return JSONResponse(
+                status_code=404,
+                content={"detail": f"Path '{full_path}' not found"}
+            )
             
         file_path = os.path.join(frontend_path, full_path)
         if os.path.exists(file_path) and os.path.isfile(file_path):

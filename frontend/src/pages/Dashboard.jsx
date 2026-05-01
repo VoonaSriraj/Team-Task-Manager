@@ -11,7 +11,7 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchTasks = async () => {
       try {
-        const res = await apiClient.get('/tasks');
+        const res = await apiClient.get('tasks');
         // Filter tasks assigned to the current user, or all if admin?
         // Let's just fetch all tasks for dashboard overview
         setTasks(res.data);
@@ -26,11 +26,12 @@ const Dashboard = () => {
 
   if (loading) return <div className="animate-pulse">Loading dashboard...</div>;
 
-  const userTasks = tasks.filter(t => t.assignee?.id === user.id);
-  const todo = tasks.filter(t => t.status === 'todo').length;
-  const inProgress = tasks.filter(t => t.status === 'in_progress').length;
-  const done = tasks.filter(t => t.status === 'done').length;
-  const overdue = tasks.filter(t => t.status === 'overdue').length;
+  const safeTasks = Array.isArray(tasks) ? tasks : [];
+  const userTasks = safeTasks.filter(t => t.assignee?.id === user?.id);
+  const todo = safeTasks.filter(t => t.status === 'todo').length;
+  const inProgress = safeTasks.filter(t => t.status === 'in_progress').length;
+  const done = safeTasks.filter(t => t.status === 'done').length;
+  const overdue = safeTasks.filter(t => t.status === 'overdue').length;
 
   return (
     <div className="animate-fade-in space-y-6">

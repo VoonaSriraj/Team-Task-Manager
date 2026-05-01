@@ -12,7 +12,7 @@ export const AuthProvider = ({ children }) => {
       const token = localStorage.getItem('token');
       if (token) {
         try {
-          const response = await apiClient.get('/auth/me');
+          const response = await apiClient.get('auth/me');
           setUser(response.data);
         } catch (error) {
           console.error("Failed to fetch user", error);
@@ -30,7 +30,7 @@ export const AuthProvider = ({ children }) => {
     formData.append('username', email); // OAuth2 expects 'username'
     formData.append('password', password);
 
-    const response = await apiClient.post('/auth/login', formData, {
+    const response = await apiClient.post('auth/login', formData, {
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded'
       }
@@ -39,12 +39,12 @@ export const AuthProvider = ({ children }) => {
     localStorage.setItem('token', response.data.access_token);
     
     // Fetch user details
-    const userResponse = await apiClient.get('/auth/me');
+    const userResponse = await apiClient.get('auth/me');
     setUser(userResponse.data);
   };
 
   const register = async (userData) => {
-    await apiClient.post('/auth/signup', userData);
+    await apiClient.post('auth/signup', userData);
     // After registration, auto-login
     await login(userData.email, userData.password);
   };

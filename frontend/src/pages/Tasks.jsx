@@ -22,9 +22,9 @@ const Tasks = () => {
   const fetchData = async () => {
     try {
       const [tasksRes, projRes, usersRes] = await Promise.all([
-        apiClient.get('/tasks'),
-        apiClient.get('/projects'),
-        apiClient.get('/users')
+        apiClient.get('tasks'),
+        apiClient.get('projects'),
+        apiClient.get('users')
       ]);
       setTasks(tasksRes.data);
       setProjects(projRes.data);
@@ -42,7 +42,7 @@ const Tasks = () => {
       const taskPayload = { ...newTask };
       if (!taskPayload.assignee_id) delete taskPayload.assignee_id;
       
-      await apiClient.post(`/tasks?project_id=${taskPayload.project_id}`, taskPayload);
+      await apiClient.post(`tasks?project_id=${taskPayload.project_id}`, taskPayload);
       setShowModal(false);
       setNewTask({ title: '', description: '', status: 'todo', project_id: '', assignee_id: '' });
       fetchData();
@@ -53,7 +53,7 @@ const Tasks = () => {
 
   const handleStatusChange = async (taskId, newStatus) => {
     try {
-      await apiClient.put(`/tasks/${taskId}`, { status: newStatus });
+      await apiClient.put(`tasks/${taskId}`, { status: newStatus });
       fetchData();
     } catch (err) {
       alert("Failed to update status");
@@ -87,12 +87,12 @@ const Tasks = () => {
               <h3 className="font-bold text-white mb-4 uppercase text-xs tracking-wider border-b border-border-color pb-2 flex justify-between items-center">
                 {columnTitles[status]}
                 <span className="bg-bg-tertiary px-2 py-0.5 rounded-full text-text-secondary">
-                  {tasks.filter(t => t.status === status).length}
+                  {(Array.isArray(tasks) ? tasks : []).filter(t => t.status === status).length}
                 </span>
               </h3>
               
               <div className="flex-1 overflow-y-auto space-y-3 pr-2 custom-scrollbar">
-                {tasks.filter(t => t.status === status).map(task => (
+                {(Array.isArray(tasks) ? tasks : []).filter(t => t.status === status).map(task => (
                   <div key={task.id} className="bg-bg-secondary border border-border-color p-4 rounded-lg shadow-md hover:border-accent-primary transition-colors group">
                     <h4 className="font-medium text-white text-sm mb-1">{task.title}</h4>
                     <p className="text-xs text-text-secondary line-clamp-2 mb-3">{task.description}</p>
@@ -153,7 +153,7 @@ const Tasks = () => {
                   required
                 >
                   <option value="">Select a project...</option>
-                  {projects.map(p => <option key={p.id} value={p.id}>{p.name}</option>)}
+                  {(Array.isArray(projects) ? projects : []).map(p => <option key={p.id} value={p.id}>{p.name}</option>)}
                 </select>
               </div>
 
@@ -166,7 +166,7 @@ const Tasks = () => {
                     onChange={e => setNewTask({...newTask, assignee_id: e.target.value})}
                   >
                     <option value="">Unassigned</option>
-                    {users.map(u => <option key={u.id} value={u.id}>{u.full_name}</option>)}
+                    {(Array.isArray(users) ? users : []).map(u => <option key={u.id} value={u.id}>{u.full_name}</option>)}
                   </select>
                 </div>
                 <div className="form-group">

@@ -2,7 +2,7 @@ import axios from 'axios';
 
 // Ensure it points to the backend API.
 // In dev it's usually localhost:8000. In production on Railway it will use the relative path '/api'.
-const API_URL = import.meta.env.VITE_API_URL || (import.meta.env.PROD ? '/api' : 'http://localhost:8000/api');
+const API_URL = import.meta.env.VITE_API_URL || (import.meta.env.PROD ? '/api/' : 'http://localhost:8000/api/');
 
 const apiClient = axios.create({
   baseURL: API_URL,
